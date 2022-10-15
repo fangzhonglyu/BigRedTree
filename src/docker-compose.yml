@@ -1,0 +1,9 @@
+version: '3'
+services:
+  demo:
+    image: fangzhonglyu/pa5
+    env_file: .env
+    volumes:
+      - /home/soxehli/cms.db:/usr/app/cms.db
+    ports:
+      - "80:5000"
