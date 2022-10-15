@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "c01a1c14-b247-498d-b365-89440e02fc79",
+		"_postman_id": "91bf859c-5a2f-4cb0-a5ac-59b988dda1c3",
 		"name": "TreeApp",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "19822691"
+		"_exporter_id": "19863204"
 	},
 	"item": [
 		{
@@ -34,7 +34,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"college\":\"COE\",\r\n    \"name\":\"Barry\",\r\n    \"identifier\":\"soxehli\"    \r\n}",
+					"raw": "{\r\n    \"college\":\"COE\",\r\n    \"name\":\"Barry\",\r\n    \"sub\":\"soxehli\"    \r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -92,7 +92,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"code\": \"CS1998\",\r\n    \"name\": \"Intro to Backend Development\"\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -115,12 +115,15 @@
 		},
 		{
 			"name": "getUsers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
-				"method": "DELETE",
+				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"code\": \"CS1998\",\r\n    \"name\": \"Intro to Backend Development\"\r\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
