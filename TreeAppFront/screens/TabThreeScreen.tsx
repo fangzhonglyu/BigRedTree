@@ -1,25 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StyleSheet, SafeAreaView, Button, Alert } from 'react-native';
 
-import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
+import EditScreenInfo from '../components/EditScreenInfo';
+// import { Text, View } from '../components/Themed';
 
 import * as React from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
-import { Button, Image, StyleSheet, Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
 // import { Text, View } from './components/Themed';
 
-WebBrowser.maybeCompleteAuthSession();
 
-export default function App() {
+export default function TabThreeScreen() {
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: '752731696718-nhibeghj1u04eie23isujls8893l0sfi.apps.googleusercontent.com',
   });
 
   const [accessToken, setAccessToken] = React.useState();
   const [userInfo, setUserInfo] = React.useState();
+  let f = false
 
   React.useEffect(() => {
     if (response?.type === 'success') {
@@ -51,36 +49,45 @@ export default function App() {
     }
   }
 
-
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
-
-  if (!isLoadingComplete) {
-    return null;
-  } else {
-    return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        {/* <Text>Welcome</Text> */}
-        {/* {showUserInfo()} */}
-        <StatusBar />
+  return (
+    <SafeAreaView style={styles.container}>
+      <View>
         {/* <Button
-          disabled={!request}
+          title="Sign in"
+          onPress={() => Alert.alert('Simple Button pressed')}
+        /> */}
+        <Button
+          disabled={!request || userInfo}
           title="Login"
           onPress={accessToken ? getUserData : () => {
             promptAsync({ showInRecents: true });
+            f = true
           }}
-        /> */}
-      </SafeAreaProvider>
-    );
-  }
+        />
+        {showUserInfo()}
+        {/* <Text style={styles.title}>Me</Text>
+        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+        <EditScreenInfo path="/screens/TabThreeScreen.tsx" /> */}
+      </View>
+    </SafeAreaView>
+  );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  separator: {
+    marginVertical: 30,
+    height: 1,
+    width: '80%',
   },
   userInfo: {
     alignItems: 'center',
