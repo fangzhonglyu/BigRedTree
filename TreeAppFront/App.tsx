@@ -14,42 +14,42 @@ import { Button, Image, StyleSheet, Text, View } from 'react-native';
 WebBrowser.maybeCompleteAuthSession();
 
 export default function App() {
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: '752731696718-nhibeghj1u04eie23isujls8893l0sfi.apps.googleusercontent.com',
-  });
+  // const [request, response, promptAsync] = Google.useAuthRequest({
+  //   expoClientId: '752731696718-nhibeghj1u04eie23isujls8893l0sfi.apps.googleusercontent.com',
+  // });
 
-  const [accessToken, setAccessToken] = React.useState();
-  const [userInfo, setUserInfo] = React.useState();
+  // const [accessToken, setAccessToken] = React.useState();
+  // const [userInfo, setUserInfo] = React.useState();
 
-  React.useEffect(() => {
-    if (response?.type === 'success') {
-      setAccessToken(response.authentication.accessToken);
-      const { authentication } = response;
-    }
-  }, [response]);
+  // React.useEffect(() => {
+  //   if (response?.type === 'success') {
+  //     setAccessToken(response.authentication.accessToken);
+  //     const { authentication } = response;
+  //   }
+  // }, [response]);
 
-  async function getUserData() {
-    let userInfoResponse = await fetch("https://www.googleapis.com/userinfo/v2/me", {
-      headers: { Authorization: `Bearer ${accessToken}` }
-    });
+  // async function getUserData() {
+  //   let userInfoResponse = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+  //     headers: { Authorization: `Bearer ${accessToken}` }
+  //   });
 
-    userInfoResponse.json().then(data => {
-      setUserInfo(data);
-    });
-  }
+  //   userInfoResponse.json().then(data => {
+  //     setUserInfo(data);
+  //   });
+  // }
 
-  function showUserInfo() {
-    if (userInfo) {
-      return (
-        <View style={styles.userInfo}>
-          <Image source={{ uri: userInfo.picture }} style={styles.profilePic} />
-          <Text>Welcome {userInfo.name}</Text>
-          <Text>{userInfo.email}</Text>
-          <Text>{userInfo.id}</Text>
-        </View>
-      );
-    }
-  }
+  // function showUserInfo() {
+  //   if (userInfo) {
+  //     return (
+  //       <View style={styles.userInfo}>
+  //         <Image source={{ uri: userInfo.picture }} style={styles.profilePic} />
+  //         <Text>Welcome {userInfo.name}</Text>
+  //         <Text>{userInfo.email}</Text>
+  //         <Text>{userInfo.id}</Text>
+  //       </View>
+  //     );
+  //   }
+  // }
 
 
   const isLoadingComplete = useCachedResources();

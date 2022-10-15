@@ -17,7 +17,6 @@ export default function TabThreeScreen() {
 
   const [accessToken, setAccessToken] = React.useState();
   const [userInfo, setUserInfo] = React.useState();
-  let f = false
 
   React.useEffect(() => {
     if (response?.type === 'success') {
@@ -56,15 +55,14 @@ export default function TabThreeScreen() {
           title="Sign in"
           onPress={() => Alert.alert('Simple Button pressed')}
         /> */}
+        {showUserInfo()}
         <Button
           disabled={!request || userInfo}
           title="Login"
           onPress={accessToken ? getUserData : () => {
             promptAsync({ showInRecents: true });
-            f = true
           }}
         />
-        {showUserInfo()}
         {/* <Text style={styles.title}>Me</Text>
         <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
         <EditScreenInfo path="/screens/TabThreeScreen.tsx" /> */}
