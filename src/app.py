@@ -22,13 +22,24 @@ def hello_world():
   """
   Endpoint for printing netid
   """
-  return os.environ.get("NETID") + " was here!"
+  return "Hello World!"
+
+
+@app.route("/api/users/<string:sub>/", methods=["GET"])
+def get_user(sub):
+  """
+  Endpoint for getting a user
+  """
+  user = Users.query.filter_by(identifier=sub).first()
+  if user is None:
+    return json.dumps({"error": "User not found"}), 404
+  return json.dumps(user.serialize()), 200
 
 
 @app.route("/api/users/", methods=["GET"])
 def get_users():
   """
-  Endpoint for getting all courses
+  Endpoint for getting all users
   """
   users = [t.serialize() for t in Users.query.all()]
   return json.dumps({"users": users}), 200
@@ -44,14 +55,14 @@ def post_user():
     new_user = Users(
       college=body["college"],
       name=body["name"],
-      identifer=body["identifer"]
+      identifier=body["identifier"]
     )
   except KeyError:
     return json.dumps({"error": "Missing fields"}), 400
 
   db.session.add(new_user)
   db.session.commit()
-  return json.dumps(new_user.serialize(), 201)
+  return json.dumps(new_user.serialize()), 201
 
 
 @app.route("/api/users/tree/", methods=["POST"])
@@ -69,3 +80,7 @@ def update_tree():
     return json.dumps({"error": "Missing fields"}), 400
   db.session.commit()
   return json.dumps(user.serialize()), 201
+
+
+if __name__ == "__main__":
+  app.run(host="0.0.0.0", port=5000, debug=True)
