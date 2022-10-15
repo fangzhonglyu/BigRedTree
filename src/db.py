@@ -29,10 +29,3 @@ class Users(db.Model):
       "college": self.college,
       "treenum": self.treenum
     }
-
-  # serialize a user without course field
-  def serialize_info(self):
-    return {
-      "name": self.name,
-      "netid": self.netid,
-    }

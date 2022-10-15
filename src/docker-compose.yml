@@ -1,9 +1,7 @@
 version: '3'
 services:
   demo:
-    image: fangzhonglyu/pa5
+    image: calciiium/tree
     env_file: .env
-    volumes:
-      - /home/soxehli/cms.db:/usr/app/cms.db
     ports:
-      - "80:5000"
+      - "5000:5000"
