@@ -16,29 +16,44 @@ export default function TabThreeScreen() {
   });
 
   const [accessToken, setAccessToken] = React.useState(null);
-  const [userInfo, setUserInfo] = React.useState();
-  // const [open, setOpen] = React.useState(false);
-  // const [value, setValue] = React.useState(null);
-
+  const [userInfo, setUserInfo] = React.useState(null);
   const [college, setCollege] = React.useState(null);
-  // const [items, setItems] = React.useState([
-  //   { label: 'College of Agriculture and Life Sciences', value: 'CALS' },
-  //   { label: 'College of Architecture, Art and Planning', value: 'CAAP' },
-  //   { label: 'College of Arts and Sciences', value: 'CAS' },
-  //   { label: 'Ann S. Bowers College of Computing and information science', value: 'COB' },
-  //   { label: 'SC Johnson College of Business', value: 'CBA' },
-  //   { label: 'College of Engineering', value: 'COE' },
-  //   { label: 'College of Human Ecology', value: 'CHE' },
-  //   { label: 'School of Hotel Administration', value: 'SHA' },
-  //   { label: 'School of Industrial and Labor Relations', value: 'ILR' },
-  // ]);
+
 
   React.useEffect(() => {
     if (response?.type === 'success') {
-      setAccessToken(response.authentication.accessToken);
       const { authentication } = response;
+      setAccessToken(authentication.accessToken);
     }
   }, [response]);
+
+  // React.useEffect(() => {
+  //   if (accessToken) {
+  //     fetch('https://www.googleapis.com/userinfo/v2/me', {
+  //       headers: { Authorization: `Bearer ${accessToken}` },
+  //     })
+  //       .then(response => response.json())
+  //       .then(setUserInfo);
+  //   }
+  // }, [accessToken]);
+
+  // return (
+  //   <View style={styles.container}>
+  //     <Text style={styles.title}>Tab Three</Text>
+  //     <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+  //     <EditScreenInfo path="/screens/TabThreeScreen.tsx" />
+  //     <Pressable
+  //       onPress={() => {
+  //         if (!request) {
+  //           return;
+  //         }
+
+  //         promptAsync();
+  //       }}  
+  //     >
+  //       </View>)
+
+
 
   async function getUserData() {
     let userInfoResponse = await fetch("https://www.googleapis.com/userinfo/v2/me", {
@@ -86,7 +101,12 @@ export default function TabThreeScreen() {
     }
   }
 
+
   function showUserInfo() {
+    if (userInfo == null && accessToken != null) {
+      getUserData();
+    }
+
     if (userInfo) {
       return (
         <View style={styles.userInfo}>

@@ -1,20 +1,65 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView, TouchableHighlight, Button } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
+import * as React from 'react';
+
+// const [pressed, setPressed] = React.useState(false);
+
+// var pressed = false;
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-    </View>
-  );
+  // const onpress = () => { setPressed(true); };
+
+  const [pressed, setPressed] = React.useState(false);
+  function thanks() {
+    if (pressed) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.title}>Thank you for Protecting the Environment</Text>
+        </View>
+      );
+    }
+  }
+
+  function getLayout() {
+    if (pressed == false)
+      return (
+        <View style={styles.container}>
+
+          <Text style={styles.title}>Save Power by turning off AC</Text>
+          <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+          <Text>Press the button if you've kept AC off today</Text>
+          <Button title="Touch Here" onPress={() => { setPressed(true) }} />
+          {/* onPress={() => { pressed = true; }}
+        >
+          <View style={styles.button}>
+            <Text>Touch Here</Text>
+          </View> */}
+          {/* </TouchableHighlight> */}
+        </View >
+      );
+    else
+      return (
+        <View style={styles.container}>
+          <Text style={styles.title}>Thank you for Protecting the Environment</Text>
+        </View>
+      );
+  }
+
+
+  return (getLayout())
 }
 
+
+
 const styles = StyleSheet.create({
+  button: {
+    alignItems: "center",
+    backgroundColor: "#DDDDDD",
+    padding: 10
+  },
   container: {
     flex: 1,
     alignItems: 'center',
