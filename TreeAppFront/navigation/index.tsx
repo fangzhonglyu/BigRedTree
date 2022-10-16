@@ -54,8 +54,12 @@ function RootNavigator() {
  */
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-function BottomTabNavigator() {
+
+function BottomTabNavigator({ route, navigation }) {
   const colorScheme = useColorScheme();
+
+  // const { treenum } = route.params;
+  // console.log(treenum);
 
   return (
     <BottomTab.Navigator
@@ -92,6 +96,13 @@ function BottomTabNavigator() {
           title: 'Tab Two',
           tabBarIcon: ({ color }) => <TabBarIcon name="tree" color={color} />,
         }}
+        listeners={({ navigation }) => ({
+          tabPress: e => {
+            e.preventDefault();
+            navigation.navigate('TabTwo', { updateTreenum: true });
+          },
+        })}
+      // initialParams={{ treenum: 0 }}
       />
       <BottomTab.Screen
         name="TabThree"
@@ -100,6 +111,13 @@ function BottomTabNavigator() {
           title: 'Me',
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
+        // initialParams={{ treenum: 0 }}
+        listeners={({ navigation }) => ({
+          tabPress: e => {
+            e.preventDefault();
+            navigation.navigate('TabThree', { updateUserData: true });
+          },
+        })}
       />
     </BottomTab.Navigator>
   );

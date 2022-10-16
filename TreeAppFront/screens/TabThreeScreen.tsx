@@ -9,29 +9,51 @@ import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { Image, Pressable, ActionSheetIOS } from 'react-native';
 
+import { postNewUser, getUser } from '../network';
+import { useState, useEffect } from "react";
 
-export default function TabThreeScreen() {
+export default function TabThreeScreen({ route, navigation }) {
+  const [treenum, setTreenum] = useState(-1);
+
+  const { updateUserData } = route.params;
+
+  useEffect(() => {
+    if (updateUserData == true) {
+      console.log("updateUserData is true");
+      if (userInfo != null && postUser == true) {
+        getUser(userInfo.id).then((data) => {
+          console.log('Success:', data);
+          setUserData(data);
+        });
+      }
+      navigation.setParams({
+        updateUserData: false,
+      });
+    }
+  }, [updateUserData]);
+
+  // if (updateUserData == true) {
+  //   console.log("updateUserData is true");
+  //   if (userInfo != null && postUser == true) {
+  //     getUser(userInfo.id).then((data) => {
+  //       console.log('Success:', data);
+  //       setUserData(data);
+  //     });
+  //   }
+  // } else {
+  //   console.log("updateUserData is false");
+  // }
+
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: '752731696718-nhibeghj1u04eie23isujls8893l0sfi.apps.googleusercontent.com',
   });
 
   const [accessToken, setAccessToken] = React.useState(null);
-  const [userInfo, setUserInfo] = React.useState();
-  // const [open, setOpen] = React.useState(false);
-  // const [value, setValue] = React.useState(null);
+  const [userInfo, setUserInfo] = React.useState(null);
 
   const [college, setCollege] = React.useState(null);
-  // const [items, setItems] = React.useState([
-  //   { label: 'College of Agriculture and Life Sciences', value: 'CALS' },
-  //   { label: 'College of Architecture, Art and Planning', value: 'CAAP' },
-  //   { label: 'College of Arts and Sciences', value: 'CAS' },
-  //   { label: 'Ann S. Bowers College of Computing and information science', value: 'COB' },
-  //   { label: 'SC Johnson College of Business', value: 'CBA' },
-  //   { label: 'College of Engineering', value: 'COE' },
-  //   { label: 'College of Human Ecology', value: 'CHE' },
-  //   { label: 'School of Hotel Administration', value: 'SHA' },
-  //   { label: 'School of Industrial and Labor Relations', value: 'ILR' },
-  // ]);
+  const [postUser, setPostUser] = React.useState(false);
+  const [userData, setUserData] = React.useState(null);
 
   React.useEffect(() => {
     if (response?.type === 'success') {
@@ -82,11 +104,73 @@ export default function TabThreeScreen() {
         )}
       />);
     } else {
-      return (<Text>{college}</Text>);
+      if (userInfo != null && postUser == false) {
+        postNewUser(userInfo.name, userInfo.id, college)?.then((data) => {
+          console.log(userInfo.id);
+          setPostUser(true);
+          getUser(userInfo.id).then((data) => {
+            console.log('Success:', data);
+            setUserData(data);
+          });
+        });
+      }
+      // useEffect(() => {
+      //   if (updateUserData == true) {
+      //     console.log("updateUserData is true");
+      //     if (userInfo != null && postUser == true) {
+      //       getUser(userInfo.id).then((data) => {
+      //         console.log('Success:', data);
+      //         setUserData(data);
+      //       });
+      //     }
+      //     navigation.setParams({
+      //       updateUserData: false,
+      //     });
+      //   }
+      // }, [updateUserData]);
+
+      // if (userInfo != null && postUser == true && userData == null) {
+      //   getUser(userInfo.id).then((data) => {
+      //     console.log('Success:', data);
+      //     setUserData(data);
+      //   });
+      // }
+      if (userData != null) {
+        // setTreenum(userData.treenum);
+        // navigation.navigate('Root', {
+        //   treenum: treenum,
+        // });
+        global.treenum = userData.treenum;
+        return (
+          <View style={styles.container}>
+            <Text>{college}</Text>
+            <Text>{userData.treenum}</Text>
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.container}>
+            <Text>{college}</Text>
+          </View>
+        );
+      }
+    }
+  }
+
+  function updateData() {
+    if (userInfo != null && postUser == true) {
+      getUser(userInfo.id).then((data) => {
+        console.log('Success:', data);
+        setUserData(data);
+      });
     }
   }
 
   function showUserInfo() {
+    if (userInfo == null && accessToken != null) {
+      getUserData();
+    }
+
     if (userInfo) {
       return (
         <View style={styles.userInfo}>
