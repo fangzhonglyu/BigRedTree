@@ -42,7 +42,7 @@ function RootNavigator() {
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen name="About" component={ModalScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -71,11 +71,11 @@ function BottomTabNavigator({ route, navigation }) {
         name="TabOne"
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Save Power!',
+          tabBarIcon: ({ color }) => <TabBarIcon name="power-off" color={color} />,
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate('Modal')}
+              onPress={() => navigation.navigate('About')}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>
@@ -93,7 +93,7 @@ function BottomTabNavigator({ route, navigation }) {
         name="TabTwo"
         component={TabTwoScreen}
         options={{
-          title: 'Tab Two',
+          title: 'Trees',
           tabBarIcon: ({ color }) => <TabBarIcon name="tree" color={color} />,
         }}
         listeners={({ navigation }) => ({

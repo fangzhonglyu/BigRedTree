@@ -133,6 +133,7 @@ export default function TabThreeScreen({ route, navigation }) {
       />);
     } else {
       if (userInfo != null && postUser == false) {
+        global.sub = userInfo.id;
         postNewUser(userInfo.name, userInfo.id, college)?.then((data) => {
           console.log(userInfo.id);
           setPostUser(true);
@@ -172,7 +173,7 @@ export default function TabThreeScreen({ route, navigation }) {
         return (
           <View style={styles.container}>
             <Text>{college}</Text>
-            <Text>{userData.treenum}</Text>
+            {/* <Text>{userData.treenum}</Text> */}
           </View>
         );
       } else {
@@ -204,10 +205,11 @@ export default function TabThreeScreen({ route, navigation }) {
       return (
         <View style={styles.userInfo}>
           <Image source={{ uri: userInfo.picture }} style={styles.profilePic} />
-          <Text style={styles.text}>{userInfo.name}</Text>
+          <Text style={styles.bold}>{userInfo.name}</Text>
           <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
           <Text>{userInfo.email}</Text>
           {/* <Text>{userInfo.id}</Text> */}
+          <Text> </Text>
           {selectCollege()}
         </View>
       );
@@ -262,6 +264,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingVertical: 15
   },
+  bold: {
+    fontSize: 20,
+    paddingVertical: 15,
+    fontWeight: 'bold',
+  },
   button: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -274,15 +281,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     //justifyContent: 'stretch',
-    marginTop: 50,
-    marginHorizontal: 16,
+    // marginTop: 50,
+    // marginHorizontal: 16,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
   },
   separator: {
-    marginVertical: 30,
+    marginVertical: 20,
     height: 1,
     width: '180%',
   },
@@ -294,8 +301,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   profilePic: {
-    width: 50,
-    height: 50,
+    width: 100,
+    height: 100,
     borderRadius: 5,
   }
 });

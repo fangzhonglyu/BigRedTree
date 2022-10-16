@@ -52,13 +52,13 @@ export function getUsers() {
 }
 
 export function updateTree(sub: string, tree: number) {
-  fetch(url + 'users/tree/', {
+  return fetch(url + 'users/tree/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      treenum: tree,
+      amount: tree,
       sub: sub
     })
   })
@@ -69,5 +69,4 @@ export function updateTree(sub: string, tree: number) {
     .catch((error) => {
       console.error('Error:', error);
     });
-  return 0;
 }

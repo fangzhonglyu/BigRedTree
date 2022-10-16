@@ -34,6 +34,11 @@ export default function TabTwoScreen({ route, navigation }) {
     }
     canvas = global.cvs;
     const ctx = canvas.getContext('2d');
+    // set canvas size to max windpw size
+    const www = Dimensions.get('window').width;
+    const hhh = Dimensions.get('window').height;
+    canvas.width = Dimensions.get('window').width;
+    canvas.height = Dimensions.get('window').height;
 
 
     // ctx.fillStyle = 'red';
@@ -42,7 +47,7 @@ export default function TabTwoScreen({ route, navigation }) {
 
 
     const ox = (www - 350) / 2; //offset x
-    const oy = 200; //offset y
+    const oy = 120; //offset y
     const imgx = 70; // image size x
     const imgy = 44; // image size y
     const ix = 35; // imterval x
@@ -56,7 +61,12 @@ export default function TabTwoScreen({ route, navigation }) {
     const mth = 60;
     const mtw = 36;
 
-    const raw_tree_num = 10.78
+
+    let raw_tree_num = 0;
+    if (global.treenum != null) {
+      raw_tree_num = global.treenum;
+    }
+
     const full_tree_num = Math.floor(raw_tree_num); // number of trees
     const partial_tree_num = raw_tree_num - full_tree_num; // number of partial trees
 
@@ -207,6 +217,10 @@ export default function TabTwoScreen({ route, navigation }) {
       return (
         <Text style={styles.title}>{global.treenum}</Text>
       );
+    } else {
+      return (
+        <Text style={styles.title}>0</Text>
+      );
     }
     // return (<Text> t </Text>);
   }
@@ -214,9 +228,18 @@ export default function TabTwoScreen({ route, navigation }) {
   return (
     // <Canvas ref={handleCanvas} style={{ width: '100%', height: '100%' }} />
     <View style={styles.container}>
-      <Text >Tab Two</Text>
+      <Text > </Text>
+      <Text > </Text>
+      <Text > </Text>
+      <Text > </Text>
+      <Text > </Text>
+      <Text style={styles.center}>You have planted: </Text>
+      <Text > </Text>
       {treenumber()}
+      <Text > </Text>
+      <Text style={styles.center}>Trees!</Text>
       <Canvas ref={handleCanvas} style={{ width: '100%', height: '100%' }} />
+      {treenumber()}
       {/* <View style={styles.separator}s lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
       {/* <EditScreenInfo path="/screens/TabTwoScreen.tsx" /> */}
     </View>
@@ -232,12 +255,17 @@ const styles = StyleSheet.create({
     showsVerticalScrollIndicator: false,
   },
   title: {
-    fontSize: 20,
+    fontSize: 40,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   separator: {
     marginVertical: 30,
     height: 1,
     width: '80%',
   },
+  center: {
+    fontSize: 30,
+    textAlign: 'center',
+  }
 });
