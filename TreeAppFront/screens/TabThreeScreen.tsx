@@ -2,7 +2,7 @@ import { StyleSheet, SafeAreaView, Button, Alert } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-import DropDownPicker from 'react-native-dropdown-picker';
+// import DropDownPicker from 'react-native-dropdown-picker';
 
 import * as React from 'react';
 import * as WebBrowser from 'expo-web-browser';
@@ -17,19 +17,21 @@ export default function TabThreeScreen() {
 
   const [accessToken, setAccessToken] = React.useState(null);
   const [userInfo, setUserInfo] = React.useState();
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(null);
-  const [items, setItems] = React.useState([
-    { label: 'College of Agriculture and Life Sciences', value: 'CALS' },
-    { label: 'College of Architecture, Art and Planning', value: 'CAAP' },
-    { label: 'College of Arts and Sciences', value: 'CAS' },
-    { label: 'Ann S. Bowers College of Computing and information science', value: 'COB' },
-    { label: 'SC Johnson College of Business', value: 'CBA' },
-    { label: 'College of Engineering', value: 'COE' },
-    { label: 'College of Human Ecology', value: 'CHE' },
-    { label: 'School of Hotel Administration', value: 'SHA' },
-    { label: 'School of Industrial and Labor Relations', value: 'ILR' },
-  ]);
+  // const [open, setOpen] = React.useState(false);
+  // const [value, setValue] = React.useState(null);
+
+  const [college, setCollege] = React.useState(null);
+  // const [items, setItems] = React.useState([
+  //   { label: 'College of Agriculture and Life Sciences', value: 'CALS' },
+  //   { label: 'College of Architecture, Art and Planning', value: 'CAAP' },
+  //   { label: 'College of Arts and Sciences', value: 'CAS' },
+  //   { label: 'Ann S. Bowers College of Computing and information science', value: 'COB' },
+  //   { label: 'SC Johnson College of Business', value: 'CBA' },
+  //   { label: 'College of Engineering', value: 'COE' },
+  //   { label: 'College of Human Ecology', value: 'CHE' },
+  //   { label: 'School of Hotel Administration', value: 'SHA' },
+  //   { label: 'School of Industrial and Labor Relations', value: 'ILR' },
+  // ]);
 
   React.useEffect(() => {
     if (response?.type === 'success') {
@@ -48,6 +50,42 @@ export default function TabThreeScreen() {
     });
   }
 
+  function selectCollege() {
+    if (college == null) {
+      return (<Button title="Select a college"
+        onPress={() => ActionSheetIOS.showActionSheetWithOptions(
+          {
+            options: ["Cancel", "College of Agriculture and Life Sciences", "College of Architecture, Art and Planning", "College of Arts and Sciences", "SC Johnson College of Business", "College of Engineering", "College of Human Ecology", "School of Hotel Administration", "School of Industrial and Labor Relations"],
+            destructiveButtonIndex: 9,
+            cancelButtonIndex: 0,
+            userInterfaceStyle: 'dark'
+          },
+          buttonIndex => {
+            if (buttonIndex === 1) {
+              setCollege("CALS");
+            } else if (buttonIndex === 2) {
+              setCollege("AAP");
+            } else if (buttonIndex === 3) {
+              setCollege("CAS");
+            } else if (buttonIndex === 4) {
+              setCollege("Business");
+            } else if (buttonIndex === 5) {
+              setCollege("COE");
+            } else if (buttonIndex === 6) {
+              setCollege("CHE");
+            } else if (buttonIndex === 7) {
+              setCollege("SHA");
+            } else if (buttonIndex === 8) {
+              setCollege("ILR");
+            }
+          }
+        )}
+      />);
+    } else {
+      return (<Text>{college}</Text>);
+    }
+  }
+
   function showUserInfo() {
     if (userInfo) {
       return (
@@ -56,14 +94,15 @@ export default function TabThreeScreen() {
           <Text style={styles.text}>{userInfo.name}</Text>
           <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
           <Text>{userInfo.email}</Text>
-          <Text>{userInfo.id}</Text>
+          {/* <Text>{userInfo.id}</Text> */}
+          {selectCollege()}
         </View>
       );
     }
     else
       return (
         <View style={styles.userInfo}>
-          <DropDownPicker
+          {/* <DropDownPicker
             style={styles.dropDown}
             open={open}
             value={value}
@@ -71,8 +110,8 @@ export default function TabThreeScreen() {
             setOpen={setOpen}
             setValue={setValue}
             setItems={setItems}
-          />
-          <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+          /> */}
+          {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
           <Button
             title='Sign in with Google'
             disabled={!request || userInfo}
@@ -85,19 +124,19 @@ export default function TabThreeScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View>
-        {/* <Button
+    // <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      {/* <Button
           title="Sign in"
           onPress={() => Alert.alert('Simple Button pressed')}
         /> */}
-        {showUserInfo()}
+      {showUserInfo()}
 
-        {/* <Text style={styles.title}>Me</Text>
+      {/* <Text style={styles.title}>Me</Text>
         <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
         <EditScreenInfo path="/screens/TabThreeScreen.tsx" /> */}
-      </View>
-    </SafeAreaView>
+    </View>
+    // </SafeAreaView>
   );
 }
 
