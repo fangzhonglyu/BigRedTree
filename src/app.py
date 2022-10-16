@@ -30,7 +30,7 @@ def get_user(sub):
     """
     Endpoint for getting a user
     """
-    user = Users.query.filter_by(identifier=sub).first()
+    user = Users.query.filter_by(sub=sub).first()
     if user is None:
         return json.dumps({"error": "User not found"}), 404
     return json.dumps(user.serialize()), 200
@@ -52,11 +52,15 @@ def post_user():
     """
     body = json.loads(request.data)
     try:
-        new_user = Users(
-            college=body["college"],
-            name=body["name"],
-            sub=body["sub"]
-        )
+        user = Users.query.filter_by(sub=body["sub"]).first()
+        if user is None:
+            new_user = Users(
+                college=body["college"],
+                name=body["name"],
+                sub=body["sub"]
+            )
+        else:
+            return json.dumps({"error": "User already exists"}), 400
     except KeyError:
         return json.dumps({"error": "Missing fields"}), 400
 
